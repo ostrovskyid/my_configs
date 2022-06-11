@@ -1,0 +1,12 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+set clipboard=unnamedplus,unnamed
+
+set sneak
+set keep-english-in-normal
+
+set hlsearch
+set ignorecase smartcase
+set showmode
+set history=1000
