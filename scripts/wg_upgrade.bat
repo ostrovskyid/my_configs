@@ -1,1 +1,1 @@
-sudo  winget upgrade -h --all
+sudo winget upgrade -h --all
