@@ -5,6 +5,7 @@ set clipboard=unnamedplus,unnamed
 
 set sneak
 set keep-english-in-normal
+set multicursor
 
 set hlsearch
 set ignorecase smartcase
