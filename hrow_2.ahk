@@ -84,3 +84,71 @@ Capslock & d up::Send {Blind}{Right Up}
 
 Capslock & SC020::Send {Blind}{Right DownTemp}
 Capslock & SC020 up::Send {Blind}{Right Up}
+
+
+; CapsLock + Backspace -> Delete
+Capslock & BackSpace:: Delete 
+
+; MakCapslock+Space -> Enter
+Capslock & Space::SendInput {Enter Down}
+
+; CapsLodk + Right button -> Alt+F4
+Capslock & RButton:: !F4
+
+; CapsLock + RShift -> App key
+Capslock & RShift::SendInput {AppsKey}
+
+; Close tab
+CapsLock & q::^F4
+CapsLock & SC010::^F4
+
+; Close window 
+CapsLock & e::!F4
+CapsLock & SC012::!F4
+
+; Simulat a click\
+CapsLock & c::+F10
+CapsLock & SC02E::+F10
+
+; Numpad using Ctrl+Win+Alt + m,.jkluio and space
+#^!Space:: SendInput {Numpad0}
+#^!m:: SendInput {Numpad1}
+#^!SC032:: SendInput {Numpad1}
+#^!,:: SendInput {Numpad2}
+#^!SC033:: SendInput {Numpad2}
+#^!.:: SendInput {Numpad3}
+#^!SC034:: SendInput {Numpad3}
+#^!j:: SendInput {Numpad4}
+#^!SC024:: SendInput {Numpad4}
+#^!k:: SendInput {Numpad5}
+#^!sc025:: SendInput {Numpad5}
+#^!l:: SendInput {Numpad6}
+#^!SC026:: SendInput {Numpad6}
+#^!u:: SendInput {Numpad7}
+#^!SC016:: SendInput {Numpad7}
+#^!i:: SendInput {Numpad8}
+#^!SC017:: SendInput {Numpad8}
+#^!o:: SendInput {Numpad9}
+#^!SC018:: SendInput {Numpad9}
+
+; F1-12 on digits row
+Capslock & 1:: F1
+Capslock & 2:: F2
+Capslock & 3:: F3
+Capslock & 4:: F4
+Capslock & 5:: F5
+Capslock & 6:: F6
+Capslock & 7:: F7
+Capslock & 8:: F8
+Capslock & 9:: F9
+Capslock & 0:: F10
+Capslock & -:: F11
+Capslock & =:: F12
+
+;Ins + Capslock work like Capslock 
+Ins & Capslock::
+If GetKeyState("CapsLock", "T") = 1
+    SetCapsLockState, AlwaysOff
+Else 
+    SetCapsLockState, AlwaysOn
+Return
