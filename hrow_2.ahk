@@ -1,154 +1,132 @@
+#Requires AutoHotkey v2.0
+SendMode("Input") ; Recommended for new scripts due to its superior speed and reliability
+SetCapsLockState("AlwaysOff")
 
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetCapsLockState, AlwaysOff
-
-;Esc if pressed and layer key if hold
-Capslock::
-Send {}
-KeyWait, CapsLock
-Send {}
-if ( A_PriorKey = "CapsLock" )
+; Esc if tapped, otherwise do nothing (acts as layer key)
+CapsLock::
 {
-    Send {Esc}
+    Send("")  ; simulate press to avoid sticking
+    KeyWait("CapsLock")
+    if (A_PriorKey = "CapsLock")
+        Send("{Esc}")
 }
-return
-
 
 ; Google Search highlighted text
-Capslock & g:: 
+CapsLock & g::
 {
- Send, ^c
- Sleep 50
- Run, http://www.google.com/search?q=%clipboard%
- Return
+    A_Clipboard := ""          ; clear any old data
+    Send("^c")                 ; copy selection
+    ClipWait(1)                ; wait up to 1s
+    if A_Clipboard
+    {
+        query := StrReplace(A_Clipboard, " ", "+")
+        Run("https://www.google.com/search?q=" . query)
+    }
 }
 
-Capslock & SC022:: 
+CapsLock & SC022::  ; same as CapsLock+g but by scancode
 {
- Send, ^c
- Sleep 50
- Run, http://www.google.com/search?q=%clipboard%
- Return
+    A_Clipboard := ""
+    Send("^c")
+    ClipWait(1)
+    if A_Clipboard
+    {
+        query := StrReplace(A_Clipboard, " ", "+")
+        Run("https://www.google.com/search?q=" . query)
+    }
 }
+; Movement remaps
+CapsLock & h::Send("{Blind}{Left DownTemp}")
+CapsLock & h Up::Send("{Blind}{Left Up}")
 
-; CapsLock + hjkl: left, down, up, right
-; Capslock + wasd: up, left, down, right
-;left
-Capslock & h::Send {Blind}{Left DownTemp}
-Capslock & h up::Send {Blind}{Left Up}
+CapsLock & SC023::Send("{Blind}{Left DownTemp}")
+CapsLock & SC023 Up::Send("{Blind}{Left Up}")
 
-Capslock & SC023::Send {Blind}{Left DownTemp}
-Capslock & SC023 up::Send {Blind}{Left Up}
+CapsLock & a::Send("{Blind}{Left DownTemp}")
+CapsLock & a Up::Send("{Blind}{Left Up}")
 
-Capslock & a::Send {Blind}{Left DownTemp}
-Capslock & a up::Send {Blind}{Left Up}
+CapsLock & SC01E::Send("{Blind}{Left DownTemp}")
+CapsLock & SC01E Up::Send("{Blind}{Left Up}")
 
-Capslock & SC01E::Send {Blind}{Left DownTemp}
-Capslock & SC01E up::Send {Blind}{Left Up}
+CapsLock & j::Send("{Blind}{Down DownTemp}")
+CapsLock & j Up::Send("{Blind}{Down Up}")
 
-;down
-Capslock & j::Send {Blind}{Down DownTemp}
-Capslock & j up::Send {Blind}{Down Up}
+CapsLock & SC024::Send("{Blind}{Down DownTemp}")
+CapsLock & SC024 Up::Send("{Blind}{Down Up}")
 
-Capslock & SC024::Send {Blind}{Down DownTemp}
-Capslock & SC024 up::Send {Blind}{Down Up}
+CapsLock & s::Send("{Blind}{Down DownTemp}")
+CapsLock & s Up::Send("{Blind}{Down Up}")
 
-Capslock & s::Send {Blind}{Down DownTemp}
-Capslock & s up::Send {Blind}{Down Up}
+CapsLock & SC01F::Send("{Blind}{Down DownTemp}")
+CapsLock & SC01F Up::Send("{Blind}{Down Up}")
 
-Capslock & SC01F::Send {Blind}{Down DownTemp}
-Capslock & SC01F up::Send {Blind}{Down Up}
+CapsLock & k::Send("{Blind}{Up DownTemp}")
+CapsLock & k Up::Send("{Blind}{Up Up}")
 
-;up
-Capslock & k::send {Blind}{Up DownTemp}
-Capslock & k up::send {Blind}{Up Up}
+CapsLock & SC025::Send("{Blind}{Up DownTemp}")
+CapsLock & SC025 Up::Send("{Blind}{Up Up}")
 
-Capslock & sc025::send {Blind}{Up DownTemp}
-Capslock & sc025 up::send {Blind}{Up Up}
+CapsLock & w::Send("{Blind}{Up DownTemp}")
+CapsLock & w Up::Send("{Blind}{Up Up}")
 
-Capslock & w::send {Blind}{Up DownTemp}
-Capslock & w up::send {Blind}{Up Up}
+CapsLock & SC011::Send("{Blind}{Up DownTemp}")
+CapsLock & SC011 Up::Send("{Blind}{Up Up}")
 
-Capslock & sc011::send {Blind}{Up DownTemp}
-Capslock & sc011 up::send {Blind}{Up Up}
+CapsLock & l::Send("{Blind}{Right DownTemp}")
+CapsLock & l Up::Send("{Blind}{Right Up}")
 
-;right
-Capslock & l::Send {Blind}{Right DownTemp}
-Capslock & l up::Send {Blind}{Right Up}
+CapsLock & SC026::Send("{Blind}{Right DownTemp}")
+CapsLock & SC026 Up::Send("{Blind}{Right Up}")
 
-Capslock & SC026::Send {Blind}{Right DownTemp}
-Capslock & SC026 up::Send {Blind}{Right Up}
+CapsLock & d::Send("{Blind}{Right DownTemp}")
+CapsLock & d Up::Send("{Blind}{Right Up}")
 
-Capslock & d::Send {Blind}{Right DownTemp}
-Capslock & d up::Send {Blind}{Right Up}
-
-Capslock & SC020::Send {Blind}{Right DownTemp}
-Capslock & SC020 up::Send {Blind}{Right Up}
-
+CapsLock & SC020::Send("{Blind}{Right DownTemp}")
+CapsLock & SC020 Up::Send("{Blind}{Right Up}")
 
 ; CapsLock + Backspace -> Delete
-Capslock & BackSpace:: Delete 
+CapsLock & Backspace::Send("{Delete}")
 
-; MakCapslock+Space -> Enter
-Capslock & Space::SendInput {Enter Down}
+; CapsLock + Space -> Enter
+CapsLock & Space::Send("{Enter Down}")
 
-; CapsLodk + Right button -> Alt+F4
-Capslock & RButton:: !F4
+; CapsLock + RButton -> Alt+F4
+CapsLock & RButton::Send("!{F4}")
 
-; CapsLock + RShift -> App key
-Capslock & RShift::SendInput {AppsKey}
+; CapsLock + RShift -> Apps key
+CapsLock & RShift::Send("{AppsKey}")
 
 ; Close tab
-CapsLock & q::^F4
-CapsLock & SC010::^F4
+CapsLock & q::Send("^F4")
+CapsLock & SC010::Send("^F4")
 
-; Close window 
-CapsLock & e::!F4
-CapsLock & SC012::!F4
+; Close window
+CapsLock & e::Send("!F4")
+CapsLock & SC012::Send("!F4")
 
-; Simulat a click\
-CapsLock & c::+F10
-CapsLock & SC02E::+F10
+; Simulate click (Shift + F10)
+CapsLock & c::Send("+{F10}")
+CapsLock & SC02E::Send("+{F10}")
 
-; Numpad using Ctrl+Win+Alt + m,.jkluio and space
-#^!Space:: SendInput {Numpad0}
-#^!m:: SendInput {Numpad1}
-#^!SC032:: SendInput {Numpad1}
-#^!,:: SendInput {Numpad2}
-#^!SC033:: SendInput {Numpad2}
-#^!.:: SendInput {Numpad3}
-#^!SC034:: SendInput {Numpad3}
-#^!j:: SendInput {Numpad4}
-#^!SC024:: SendInput {Numpad4}
-#^!k:: SendInput {Numpad5}
-#^!sc025:: SendInput {Numpad5}
-#^!l:: SendInput {Numpad6}
-#^!SC026:: SendInput {Numpad6}
-#^!u:: SendInput {Numpad7}
-#^!SC016:: SendInput {Numpad7}
-#^!i:: SendInput {Numpad8}
-#^!SC017:: SendInput {Numpad8}
-#^!o:: SendInput {Numpad9}
-#^!SC018:: SendInput {Numpad9}
+; Function keys on number row
+CapsLock & 1::Send("{F1}")
+CapsLock & 2::Send("{F2}")
+CapsLock & 3::Send("{F3}")
+CapsLock & 4::Send("{F4}")
+CapsLock & 5::Send("{F5}")
+CapsLock & 6::Send("{F6}")
+CapsLock & 7::Send("{F7}")
+CapsLock & 8::Send("{F8}")
+CapsLock & 9::Send("{F9}")
+CapsLock & 0::Send("{F10}")
+CapsLock & -::Send("{F11}")
+CapsLock & =::Send("{F12}")
 
-; F1-12 on digits row
-Capslock & 1:: F1
-Capslock & 2:: F2
-Capslock & 3:: F3
-Capslock & 4:: F4
-Capslock & 5:: F5
-Capslock & 6:: F6
-Capslock & 7:: F7
-Capslock & 8:: F8
-Capslock & 9:: F9
-Capslock & 0:: F10
-Capslock & -:: F11
-Capslock & =:: F12
-
-;Ins + Capslock work like Capslock 
-Ins & Capslock::
-If GetKeyState("CapsLock", "T") = 1
-    SetCapsLockState, AlwaysOff
-Else 
-    SetCapsLockState, AlwaysOn
-Return
+; Ins + CapsLock -> toggle CapsLock state
+Ins & CapsLock::
+{
+    if GetKeyState("CapsLock", "T")
+        SetCapsLockState("AlwaysOff")
+    else
+        SetCapsLockState("AlwaysOn")
+}
