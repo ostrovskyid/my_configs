@@ -44,16 +44,17 @@ for key, dir in moveKeys {
 
 
 ; --- SPECIAL FUNCTION SHORTCUTS ---
-CapsLock & Backspace::Send("{Delete}")        ; CapsLock+Backspace → Delete
-CapsLock & Space::Send("{Enter Down}")        ; CapsLock+Space → Enter
-CapsLock & RButton::Send("!{F4}")             ; CapsLock+RButton → Alt+F4 (close window)
-CapsLock & RShift::Send("{AppsKey}")          ; CapsLock+RShift → Context/Apps key
+CapsLock & Backspace::Send("^+{Backspace}")     ; CapsLock+Backspace → Ctrl+Backspace (delete word)
+CapsLock & Space::Send("{Enter Down}")          ; CapsLock+Space → Enter
+CapsLock & RButton::Send("!{F4}")               ; CapsLock+RButton → Alt+F4 (close window)
+CapsLock & RShift::Send("{AppsKey}")            ; CapsLock+RShift → Context/Apps key
 
 ; --- CLOSE TAB & CLOSE WINDOW (with scan codes) ---
-CapsLock & q::Send("^F4")         ; Close tab
-CapsLock & SC010::Send("^F4")
-CapsLock & e::Send("!F4")         ; Close window
+CapsLock & q::Send("^w")                        ; Close tab (Ctrl+W)
+CapsLock & SC010::Send("^w")
+CapsLock & e::Send("!F4")                       ; Close window (Alt+F4)
 CapsLock & SC012::Send("!F4")
+
 
 ; --- CONTEXT MENU (SHIFT+F10, with scan code) ---
 CapsLock & c::Send("+{F10}")
