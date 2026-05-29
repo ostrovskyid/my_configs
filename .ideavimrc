@@ -148,6 +148,34 @@ let g:WhichKeyDesc_errors = "<leader>e Error navigation"
 let g:WhichKeyDesc_errors_next = "<leader>en Go to next error"
 let g:WhichKeyDesc_errors_prev = "<leader>ep Go to previous error"
 
+" --- Android Studio ---
+let g:WhichKeyDesc_run = "<leader>R Run / Debug"
+let g:WhichKeyDesc_run_run = "<leader>Rr Run app"
+let g:WhichKeyDesc_run_debug = "<leader>Rd Debug app"
+let g:WhichKeyDesc_run_stop = "<leader>Rs Stop"
+let g:WhichKeyDesc_run_rerun = "<leader>Rl Rerun last"
+let g:WhichKeyDesc_run_apply_changes = "<leader>Rc Apply changes & restart activity"
+let g:WhichKeyDesc_run_apply_code = "<leader>RC Apply code changes"
+let g:WhichKeyDesc_run_choose = "<leader>Rn Choose run configuration"
+let g:WhichKeyDesc_run_edit = "<leader>Re Edit run configurations"
+
+let g:WhichKeyDesc_android = "<leader>A Android"
+let g:WhichKeyDesc_android_sync = "<leader>As Sync project with Gradle files"
+let g:WhichKeyDesc_android_make = "<leader>Ab Make / build project"
+let g:WhichKeyDesc_android_avd = "<leader>Av Device / AVD manager"
+let g:WhichKeyDesc_android_device = "<leader>Ad Select target device"
+let g:WhichKeyDesc_android_attach = "<leader>Aa Attach debugger to process"
+
+let g:WhichKeyDesc_tool = "<leader>o Open tool window"
+let g:WhichKeyDesc_tool_logcat = "<leader>ol Logcat"
+let g:WhichKeyDesc_tool_gradle = "<leader>og Gradle"
+let g:WhichKeyDesc_tool_build = "<leader>ob Build"
+let g:WhichKeyDesc_tool_run = "<leader>or Run"
+let g:WhichKeyDesc_tool_debug = "<leader>od Debug"
+let g:WhichKeyDesc_tool_terminal = "<leader>ot Terminal"
+let g:WhichKeyDesc_tool_project = "<leader>op Project"
+let g:WhichKeyDesc_tool_inspection = "<leader>oi App Inspection"
+
 
 "" Key mappings
 "" ========================================================
@@ -288,3 +316,38 @@ map <leader>Ga <Action>(Annotate)
 " Errors
 map <leader>en <Action>(GotoNextError)
 map <leader>ep <Action>(GotoPreviousError)
+
+
+"" Android Studio
+"" ========================================================
+" If any of these are no-ops, the action id changed in your AS version:
+" run `:set trackactionids` then trigger the command to print its real id,
+" or `:actionlist <pattern>` to search. Most ids below are mirrored from
+" .atamanrc.config, which is known to work on this setup.
+
+" Run / Debug
+map <leader>Rr <Action>(Run)
+map <leader>Rd <Action>(Debug)
+map <leader>Rs <Action>(Stop)
+map <leader>Rl <Action>(Rerun)
+map <leader>Rc <Action>(Android.Deploy.ApplyChanges)
+map <leader>RC <Action>(Android.Deploy.ApplyCodeChanges)
+map <leader>Rn <Action>(ChooseRunConfiguration)
+map <leader>Re <Action>(editRunConfigurations)
+
+" Android
+map <leader>As <Action>(Android.SyncProject)
+map <leader>Ab <Action>(CompileDirty)
+map <leader>Av <Action>(Android.RunAndroidAvdManager)
+map <leader>Ad <Action>(DeviceAndSnapshotComboBox)
+map <leader>Aa <Action>(AndroidConnectDebuggerAction)
+
+" Tool windows
+map <leader>ol <Action>(ActivateLogcatToolWindow)
+map <leader>og <Action>(ActivateGradleToolWindow)
+map <leader>ob <Action>(ActivateBuildToolWindow)
+map <leader>or <Action>(ActivateRunToolWindow)
+map <leader>od <Action>(ActivateDebugToolWindow)
+map <leader>ot <Action>(ActivateTerminalToolWindow)
+map <leader>op <Action>(ActivateProjectToolWindow)
+map <leader>oi <Action>(ActivateAppInspectionToolWindow)
