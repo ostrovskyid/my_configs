@@ -1,42 +1,81 @@
-" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+" .ideavimrc is a configuration file for the IdeaVim plugin. It uses
 "   the same commands as the original .vimrc configuration.
-" You can find a list of commands here: https://jb.gg/h38q75
-" Find more examples here: https://jb.gg/share-ideavimrc
+" Command reference:        https://jb.gg/h38q75
+" Share/examples:           https://jb.gg/share-ideavimrc
+" Supported plugins (wiki): https://jb.gg/ideavim-plugins
+" IdeaVim set-commands:     https://github.com/JetBrains/ideavim/blob/master/doc/set-commands.md
+"
+" Tip: run `:set trackactionids` (or `:actionlist <pattern>`) to discover the
+"      <Action>(...) id behind any IDE command you want to map.
 
-"  Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+
 "" Base Settings
 "" ========================================================
 
-set scrolloff=10
-set linenumber
-set showmode
-set showcmd
+set scrolloff=10              " keep 10 lines of context above/below the cursor
+set sidescrolloff=10          " ...and to the sides when nowrap is on
+set number                    " absolute line numbers
+set showmode                  " show -- INSERT -- etc. in the status line
+set showcmd                   " show the partial command as you type it
+set history=1000              " remember more : and / commands
 
-set smartcase
-set incsearch
-set hlsearch
+" Searching
+set ignorecase               " case-insensitive search...
+set smartcase                " ...unless the pattern contains an uppercase char
+set incsearch                " jump to matches while typing the pattern
+set hlsearch                 " highlight all matches
 
-set visualbell
+set visualbell               " flash instead of beeping
 
-" Use system clipboard
-set clipboard+=unnamed   
+" Clipboard: share the system clipboard, and let IDE paste actions stay in sync
+set clipboard+=unnamed
+set clipboard+=ideaput
 
 let mapleader = " "
 
 
-"" Plugin Settings
+"" IDE Integration (IdeaVim-specific options)
 "" ========================================================
 
-set surround
+set ideajoin                 " use the IDE's smart "join lines" when pressing J
+set ideamarks                " sync Vim global marks with IDE bookmarks
+set idearefactormode=keep    " stay in the current Vim mode during refactors
+set ideastatusicon=gray      " low-key IdeaVim status-bar icon
+
+
+"" Plugin Settings
+"" ========================================================
+"" See https://jb.gg/ideavim-plugins
+
+set surround                 " ys / cs / ds to add, change, delete surroundings
+set commentary               " gcc / gc{motion} to (un)comment
+set ReplaceWithRegister       " gr{motion} / grr to replace text with a register
+set exchange                 " cx{motion} then cx again to swap two regions
+set multiple-cursors         " multi-cursor selection (mappings below)
+set matchit                  " smarter % matching (HTML/XML tags, keywords)
+
+" Text objects
+set argtextobj              " ia / aa  -> function argument
+set textobj-entire          " ie / ae  -> entire buffer
+set textobj-indent          " ii / ai  -> indentation block
+set vim-paragraph-motion    " make { and } also stop on whitespace-only lines
+let g:argtextobj_pairs = "(:),[:],{:},<:>"
+
+" Visual feedback on yank
 set highlightedyank
-set sneak
-set nerdtree
+let g:highlightedyank_highlight_duration = "300"
 
-" Easymotion settings
-set easymotion
-set notimeout
+" Motion plugins
+set sneak                    " s{char}{char} / S{char}{char} two-char motions
+set easymotion               " <leader>j to jump anywhere on screen
+set notimeout                " required by easymotion's multi-key mappings
 
-" Which-key settings
+" File tree
+set nerdtree                 " :NERDTree* commands and <leader>x toggle
+
+
+"" which-key
+"" ========================================================
 set which-key
 let g:WhichKey_FontSize = 16
 let g:WhichKey_CommandColor = "#41ead4"
@@ -45,12 +84,15 @@ let g:WhichKey_SortOrder = "by_key_prefix_first"
 
 let g:WhichKeyDesc_leader = "<leader> Leader key"
 
-let g:WhichKeyDesc_leader = "<leader>x Open file explorer"
+let g:WhichKeyDesc_file_quickLook = "<leader><leader> Recent files"
+
+let g:WhichKeyDesc_explorer = "<leader>x Toggle file explorer (NERDTree)"
+let g:WhichKeyDesc_comment = "<leader>c Comment line"
+let g:WhichKeyDesc_nohlsearch = "<leader>h Clear search highlight"
+let g:WhichKeyDesc_close_tab = "<leader>q Close active tab"
 
 let g:WhichKeyDesc_easymotion = "<leader>j Jump with Easymotion"
 let g:WhichKeyDesc_easymotion_prefix = "<leader><leader>"
-
-let g:WhichKeyDesc_comment = "<leader>c Comment line"
 
 let g:WhichKeyDesc_fold = "<leader>z Folding"
 let g:WhichKeyDesc_fold_all = "<leader>zc Fold all regions"
@@ -58,29 +100,25 @@ let g:WhichKeyDesc_unfold_all = "<leader>zo Unfold all regions"
 
 let g:WhichKeyDesc_window = "<leader>w Window splits"
 let g:WhichKeyDesc_window_split_vertically = "<leader>wv Split vertically"
-let g:WhichKeyDesc_window_split_horizontally = "<leader>wh Split horizontally"
+let g:WhichKeyDesc_window_split_horizontally = "<leader>ws Split horizontally"
 let g:WhichKeyDesc_window_split_unsplit = "<leader>wu Unsplit"
 let g:WhichKeyDesc_window_split_move_editor = "<leader>wm Move editor to opposite tab group"
-
 
 let g:WhichKeyDesc_display = "<leader>d Display options"
 let g:WhichKeyDesc_zen_mode = "<leader>dz Toggle Zen mode"
 let g:WhichKeyDesc_df_mode = "<leader>dd Toggle Distraction-Free mode"
 let g:WhichKeyDesc_fullscreen = "<leader>df Toggle full screen"
 
-let g:WhichKeyDesc_action= "<leader>a Actions"
-let g:WhichKeyDesc_action_context_menu = "<leader>am Open context menu"
-let g:WhichKeyDesc_action_search = "<leader>as Open command modal"
-
-let g:WhichKeyDesc_file_quickLook = "<leader><leader> Recent files"
+let g:WhichKeyDesc_action = "<leader>a Actions"
+let g:WhichKeyDesc_action_context_menu = "<leader>am Open intention actions"
+let g:WhichKeyDesc_action_search = "<leader>as Search everywhere"
 
 let g:WhichKeyDesc_file_nav = "<leader>f File navigation"
 let g:WhichKeyDesc_file_nav_goto_file = "<leader>ff Go to file"
 let g:WhichKeyDesc_file_nav_goto_content = "<leader>fc Search for file content"
 let g:WhichKeyDesc_file_nav_show_recent_files = "<leader>fr Show recent files"
 let g:WhichKeyDesc_file_nav_show_recent_locations = "<leader>fl Show recent locations"
-
-let g:WhichKeyDesc_close_tab = "<leader>q Close active tab"
+let g:WhichKeyDesc_file_nav_scratch = "<leader>fs New scratch file"
 
 let g:WhichKeyDesc_refactoring = "<leader>r Refactoring menu"
 let g:WhichKeyDesc_refactoring_rename = "<leader>rn Rename element"
@@ -94,25 +132,46 @@ let g:WhichKeyDesc_goto = "<leader>g Go to X"
 let g:WhichKeyDesc_goto_declaration = "<leader>gd Go to Definition"
 let g:WhichKeyDesc_goto_type_declaration = "<leader>gy Go to Type Definition"
 let g:WhichKeyDesc_goto_implementation = "<leader>gi Go to Implementation"
-let g:WhichKeyDesc_goto_usages = "<leader>gu Go to Usages"
+let g:WhichKeyDesc_goto_usages = "<leader>gu Show Usages"
 let g:WhichKeyDesc_goto_test = "<leader>gt Go to Test"
 let g:WhichKeyDesc_goto_back = "<leader>gb Go Back"
 let g:WhichKeyDesc_goto_forward = "<leader>gf Go Forward"
 
-let g:WhichKeyDesc_git = "<leader>g Git operations"
-let g:WhichKeyDesc_git_commit = "<leader>gc Open Git commit dialog"
-let g:WhichKeyDesc_git_status = "<leader>gs Open Git status dialog"
-let g:WhichKeyDesc_git_branches = "<leader>gb Open Git branches list"
+let g:WhichKeyDesc_git = "<leader>G Git operations"
+let g:WhichKeyDesc_git_commit = "<leader>Gc Open Git commit dialog"
+let g:WhichKeyDesc_git_status = "<leader>Gs Open VCS tool window"
+let g:WhichKeyDesc_git_branches = "<leader>Gb Open Git branches list"
+let g:WhichKeyDesc_git_log = "<leader>Gl Show Git log"
+let g:WhichKeyDesc_git_blame = "<leader>Ga Annotate (Git blame)"
 
 let g:WhichKeyDesc_errors = "<leader>e Error navigation"
-let g:WhichKeyDesc_errors_next = "<leader>en Go to next error in solution"
-let g:WhichKeyDesc_errors_prev = "<leader>ep Go to previous error in solution"
+let g:WhichKeyDesc_errors_next = "<leader>en Go to next error"
+let g:WhichKeyDesc_errors_prev = "<leader>ep Go to previous error"
 
 
 "" Key mappings
 "" ========================================================
 
+" Quick escape from insert mode
 inoremap jk <Esc>
+
+" Clear search highlight
+nnoremap <leader>h :nohlsearch<CR>
+
+" Keep the cursor centered when scrolling and searching
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Join lines without moving the cursor to the join point
+nnoremap J mzJ`z
+
+" Yank to end of line (consistent with C and D)
+nnoremap Y y$
+
+" Paste over a visual selection without clobbering the yank register
+xnoremap <leader>p "_dP
 
 " Tab navigation
 nnoremap <A-n> :tabnext<CR>
@@ -128,28 +187,48 @@ nnoremap <A-j> <C-w>j
 nnoremap [[ <Action>(MethodUp)
 nnoremap ]] <Action>(MethodDown)
 
-" Easy visual indentation
+" Navigate diagnostics quickly
+nnoremap [e <Action>(GotoPreviousError)
+nnoremap ]e <Action>(GotoNextError)
+
+" Easy, repeatable visual indentation
 vnoremap < <gv
 vnoremap > >gv
 
-" Execute macro saved in 'q' register
+" Move selected lines up/down, keeping them selected and re-indented
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Execute the macro saved in the 'q' register
 nnoremap qj @q
 
-" Popup navigation
+" Code-completion popup navigation
 inoremap <C-j> <Action>(PopupMenu-selectNext)
 inoremap <C-k> <Action>(PopupMenu-selectPrev)
+
+
+"" multiple-cursors mappings
+"" ========================================================
+" Remapped off the plugin's default <A-n>/<A-p> so they don't collide with the
+" <A-n>/<A-p> tab navigation above.
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
 
 
 "" Leader commands
 "" ========================================================
 
-" Comment lines
-map <leader>c <action>(CommentByLineComment)
+" Comment lines (also available via gcc / gc{motion} from commentary)
+map <leader>c <Action>(CommentByLineComment)
 
 " Jump around with easymotion
 map <leader>j <Plug>(easymotion-s)
 
-" Open NERDTree (use q to exit)
+" Toggle the NERDTree file explorer (use q inside the tree to close it)
 map <leader>x :NERDTreeToggle<CR>
 
 " Folding
@@ -163,24 +242,24 @@ map <leader>wu <Action>(Unsplit)
 map <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 
 " Display options
-map <leader>dd <action>(ToggleDistractionFreeMode)
-map <leader>dz <action>(ToggleZenMode)
-map <leader>df <action>(ToggleFullScreen)
+map <leader>dd <Action>(ToggleDistractionFreeMode)
+map <leader>dz <Action>(ToggleZenMode)
+map <leader>df <Action>(ToggleFullScreen)
 
 " Actions
-map <leader>am <action>(ShowIntentionActions)
-map <leader>as <action>(SearchEverywhere)
+map <leader>am <Action>(ShowIntentionActions)
+map <leader>as <Action>(SearchEverywhere)
 
 " File navigation
-map <leader>ff <action>(GotoFile)
-map <leader>fr <action>(RecentFiles)
-map <leader>fc <action>(FindInPath)
+map <leader>ff <Action>(GotoFile)
+map <leader>fr <Action>(RecentFiles)
+map <leader>fc <Action>(FindInPath)
+map <leader>fl <Action>(RecentLocations)
+map <leader>fs <Action>(NewScratchFile)
 map <leader><leader> <Action>(RecentFiles)
-map <leader>fl <action>(RecentLocations)
-map <leader>fs <action>(NewScratchFile)
 
 " Close active tab
-map <leader>q <action>(CloseContent)
+map <leader>q <Action>(CloseContent)
 
 " Refactoring
 map <leader>rn <Action>(RenameElement)
@@ -196,14 +275,16 @@ nmap <leader>gy <Action>(GotoTypeDeclaration)
 nmap <leader>gi <Action>(GotoImplementation)
 nmap <leader>gu <Action>(ShowUsages)
 nmap <leader>gt <Action>(GotoTest)
-nmap <leader>gf <Action>(Back)
-nmap <leader>gb <Action>(Forward)
+nmap <leader>gb <Action>(Back)
+nmap <leader>gf <Action>(Forward)
 
-" Git windows
-map <leader>gc <Action>(CheckinProject)
-map <leader>gs <Action>(ActivateVersionControlToolWindow)
-map <leader>gb <Action>(Git.Branches)
+" Git (version control)
+map <leader>Gc <Action>(CheckinProject)
+map <leader>Gs <Action>(ActivateVersionControlToolWindow)
+map <leader>Gb <Action>(Git.Branches)
+map <leader>Gl <Action>(Vcs.Show.Log)
+map <leader>Ga <Action>(Annotate)
 
 " Errors
-map <leader>en <Action>(ReSharperGotoNextErrorInSolution)
-map <leader>ep <Action>(ReSharperGotoPrevErrorInSolution)
+map <leader>en <Action>(GotoNextError)
+map <leader>ep <Action>(GotoPreviousError)
